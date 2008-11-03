@@ -1,0 +1,13 @@
+
+/* ksh.Rational */
+ksh\:frac	{display:inline-block;vertical-align:middle;text-align:center;white-space:nowrap;}
+ksh\:num	{display:block;}
+ksh\:den	{display:block;border-top:1px solid black;}
+
+/* ksh.LinearSpace.MatrixR8 */
+table.ksh-matrix	{display:inline;vertical-align:middle;}
+td.ksh-matrix-right	{border:1px solid black;border-left-width:0;}
+td.ksh-matrix-left	{border:1px solid black;border-right-width:0;}
+
+ksh\:sup{font-size:85%;vertical-align:1ex;}
+ksh\:sub{font-size:85%;vertical-align:-0.5ex;}
