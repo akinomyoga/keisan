@@ -1,0 +1,133 @@
+<html>
+<script type="text/javascript">
+//
+// normal complex multiplier
+//
+function mul1(x,y){
+	var r=x.r*y.r-x.i*y.i;
+	var i=x.r*y.i+x.i*y.r;
+	x.r=r;
+	x.i=i;
+}
+
+//
+// custom complex multiplier
+//
+function mul2(x,y){
+	var ra=mul2ra(x)*mul2ra(y);
+	var th=mul2th(x)+mul2th(y);
+	if(th<-1)th+=8;else if(th>=7)th-=8;
+//output.innerHTML+=mul2th(x)+"+"+mul2th(y)+"="+th+"<br/>";
+	var ret=mul2ret(ra,th);
+	x.r=ret.r;
+	x.i=ret.i;
+}
+function mul2ra(x){
+	var r=x.r>=0?x.r:-x.r;
+	var i=x.i>=0?x.i:-x.i;
+	return r>=i?r:i;
+}
+function mul2th(x){
+	if(x.r==0&&x.i==0)return 0;
+	if(x.r+x.i>=0)return x.r>=x.i?x.i/x.r:2-x.r/x.i;
+	return x.r>=x.i?6-x.r/x.i:4+x.i/x.r;
+}
+function mul2ret(ra,th){
+	if(th<=1)return {r:ra,i:ra*th};
+	if(th<=3)return {r:ra*(2-th),i:ra};
+	if(th<5)return {r:-ra,i:ra*(4-th)};
+	return {r:ra*(th-6),i:-ra};
+}
+
+//---------------------------
+var mul=mul2;
+
+function div(x,n){
+	x.r/=n;
+	x.i/=n;
+}
+
+function add(x,y){
+	x.r+=y.r;
+	x.i+=y.i;
+}
+
+function abs2(x){
+	return x.r*x.r+x.i*x.i;
+}
+
+function exp(x){
+	var fract=1;
+	var i=0;
+	var ko={r:1,i:0};
+	var ret={r:1,i:0};
+
+//var str="";
+//output.innerText="";
+
+	while(abs2(ko)>0){
+		mul(ko,x);
+//str+=mul2th(ko)+"\r\n";//"("+ko.r+","+ko.i+")\r\n";
+		div(ko,++i);
+		add(ret,ko);
+	}
+
+	alert(i);
+	//alert(tostr(ko));
+	alert(tostr(ret));
+//output.innerText=str;
+	return ret;
+}
+
+function tostr(x){
+	return x.r.toString()+"+i"+x.i.toString();
+}
+
+alert("ini");
+
+//*/
+</script>
+<script>
+function testMul2(){
+	var str="";
+	for(var j=0;j<6.28;j+=0.1){
+		var r=Math.cos(j);
+		var i=Math.sin(j);
+		str+="("+r+","+i+") ¨ ";
+		var ra=mul2ra({r:r,i:i});
+		var th=mul2th({r:r,i:i});
+		str+="("+ra+","+th+") ¨ ";
+		var res=mul2ret(ra,th);
+		str+="ƒ¢ ("+(res.r-r)+","+(res.i-i)+")\r\n";
+	}
+	output.innerText=str;
+}
+function testexp(){
+	var str="";
+	for(var j=0;j<10;j+=0.5){}
+}
+function testM1M2(){
+	var str="";
+	for(var r1=1;r1<4;r1++)for(var i1=1;i1<4;i1++)
+	for(var r2=1;r2<4;r2++)for(var i2=1;i2<4;i2++)
+	{
+		str+="("+r1+","+i1+")*("+r2+","+i2+")=\r\n";
+		var m1={r:r1,i:i1};
+		mul1(m1,{r:r2,i:i2});
+		str+="    (mul1)("+m1.r+","+m1.i+")\r\n";
+		var m2={r:r1,i:i1};
+		mul2(m2,{r:r2,i:i2});
+		str+="    (mul2)("+m2.r+","+m2.i+")\r\n";
+	}
+	output.innerText=str;
+}
+</script>
+<button onclick="exp({r:0,i:3.14159265358979323846264});">exp iƒÎ</button>
+<button onclick="exp({r:1,i:0});">exp 1</button>
+<button onclick="exp({r:0,i:4});">exp i4</button>
+<button onclick="exp({r:2,i:2});">exp 2+2i</button>
+<br/>
+<button onclick="testM1M2()">test</button>
+<pre id="output">
+</pre>
+</html>
