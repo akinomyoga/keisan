@@ -1,0 +1,13 @@
+# gitignore
+
+*.user
+*.suo
+*.ncb
+bin
+obj
+
+Debug
+
+/afh.xml
+/AdamsBashForth*.htm
+/AdamsBashForth.pdf
